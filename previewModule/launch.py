@@ -1,9 +1,7 @@
-import sys
-import os
-import argparse
-import subprocess
+import sys, os, argparse, subprocess
 from program import logProcessing, shotFinder, sequenceProcessing
-import json
+from configer import configCreator
+
 
 def createParser():
     parser = argparse.ArgumentParser()
@@ -22,14 +20,19 @@ class renderLauncher(object):
     '''
     read the user command line flags, apply them, and run render itself
     '''
-    def __init__(self):
-        self.PATH = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['PATH']
+    def __init__(self, path='d:\\Dropbox\\FOX_renders'):
+        c = configCreator()
+        if c.getValue('PATH'):
+            self.PATH = c.getValue('PATH')
+        else:
+            self.PATH = path
         self.inputFile = namespace.shot
         self.inputFolder = namespace.folder
         self.renderall = namespace.renderall
         self.novideo = namespace.novideo
         self.nostamp = namespace.nostamp
         self.launcher()
+        print 'renderLauncher __init__'
 
     def whatToRender(self):
         '''
@@ -80,5 +83,7 @@ class renderLauncher(object):
         (output, err) = p.communicate()
         print output, err
 
-
 renderLauncher()
+
+
+

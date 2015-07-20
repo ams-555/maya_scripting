@@ -1,18 +1,31 @@
 ﻿# -*- coding: utf-8 -*-
-import os
-import glob
-import json
+import sys, os, glob, json
 from moviepy.editor import ImageClip, TextClip, CompositeVideoClip, ImageSequenceClip
+from configer import configCreator
 
 
 class sequenceProcessing(object):
     '''
-    works with rendered frame sequences
+    works with frames sequences
     '''
-    def __init__(self):
-        self.PATH = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['PATH']
-        self.STAMP_LOGO = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['STAMP_LOGO']
-        self.LOG = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['LOG']
+    def __init__(self,
+                 path='d:\\Dropbox\\FOX_renders',
+                 stamp_logo='d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png',
+                 log='d:\\Dropbox\\FOX_renders\\log.json'):
+        c = configCreator()
+        if c.getValue('PATH'):
+          self.PATH = c.getValue('PATH')
+        else:
+            self.PATH = path
+        if c.getValue('STAMP_LOGO'):
+          self.STAMP_LOGO = c.getValue('STAMP_LOGO')
+        else:
+            self.STAMP_LOGO = stamp_logo
+        if c.getValue('LOG'):
+          self.LOG = c.getValue('LOG')
+        else:
+            self.LOG = log
+        print 'sequenceProcessing __init__'
 
     def makeStamp(self, sequenceFolder, shotNumber):
         '''
@@ -58,13 +71,19 @@ class logProcessing(object):
     '''
     creates a new log file, if there were no such file, and updates log file data.
     '''
-    def __init__(self):
-        self.LOG = str(json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['LOG'])
+    def __init__(self, log='d:\\Dropbox\\FOX_renders\\log.json'):
+        c = configCreator()
+        if c.getValue('LOG'):
+            self.LOG = c.getValue('LOG')
+        else:
+            self.LOG = log
+        # self.LOG = str(json.load(open(os.path.join(os.path.dirname(sys.argv[0]), 'config\config.json')))['LOG'])
         if not os.path.exists(self.LOG):
             # create an empty log
             dict = {}
             json.dump(dict, open(self.LOG, 'w'), indent=4)
         self.currentData = json.load(open(self.LOG))
+        print 'logProcessing __init__'
 
     def __logReader(self, shotNumber):
         '''
@@ -114,32 +133,43 @@ class shotFinder(object):
     '''
     finds shots to be rendered
     '''
-    def __init__(self, argFile=None, argFolder=None):
-        self.SOURSE = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['SOURSE']
-        self.COMPONENT = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['COMPONENT']
-        self.WORKPART = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['WORKPART']
-        self.PROGRAM = json.load(open(r'd:\Dropbox\maya\scripts\previewModule\config\config.json'))['PROGRAM']
+    def __init__(self,
+                 sourse="d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\",
+                 component='Amn',
+                 workpart='publish',
+                 program='maya'):
+        c = configCreator()
+        if c.getValue('SOURSE'):
+          self.SOURSE = c.getValue('SOURSE')
+        else:
+            self.SOURSE = sourse
+        if c.getValue('COMPONENT'):
+          self.COMPONENT = c.getValue('COMPONENT')
+        else:
+            self.COMPONENT = component
+        if c.getValue('WORKPART'):
+          self.WORKPART = c.getValue('WORKPART')
+        else:
+            self.WORKPART = workpart
+        if c.getValue('PROGRAM'):
+          self.PROGRAM = c.getValue('PROGRAM')
+        else:
+            self.PROGRAM = program
+        print 'shot finder __init__'
 
     def shotgunFolders(self):
         '''
-        finds the latest version shot is shotgun folder structure
-        :return: list of latest shots
+        finds the latest version shots is shotgun folder structure
+        :return: list of latest version shots
         '''
         shotList = []
         shotDirsList = glob.glob(self.SOURSE+'shot*')
         for shotDir in shotDirsList:
-            pipelineSteps = os.listdir(shotDir)
-            for pipelineStep in pipelineSteps:
-                if pipelineStep == self.COMPONENT:
-                    stepStages = os.listdir(os.path.join(shotDir, self.COMPONENT))
-                    for stage in stepStages:
-                        if stage == self.WORKPART:
-                            allFiles = os.listdir(os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM))
-                            if allFiles:
-                                lastFile = glob.glob(os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM)+'\Shot*.v*')
-                                if lastFile != []:
-                                    shot = lastFile[-1]
-                                    shotList.append(shot)
+            for path, subdirs, files in os.walk(os.path.join(self.SOURSE, shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM)):
+                allShots = self.__filter(files)
+                if allShots:
+                    lastVersionShot = os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM, allShots[-1])
+                    shotList.append(lastVersionShot)
         return shotList
 
     def customFolder(self, argFolder):
@@ -154,14 +184,14 @@ class shotFinder(object):
     def customFile(self, argFile):
         '''
         :param argFile: file provided by the user from the command line
-        :return: file if it maches naming rools
+        :return: list of on shot if it maches naming rools
         '''
-        return self.__filter(argFile)
+        return self.__filter(glob.glob(argFile))
 
     def __filter(self, files):
         '''
         filters incoming files. They must be named properly.
-        :param files: list of foles to be checked
+        :param files: list of files to be checked
         :return: list of filtered shots
         '''
         shotList = []
