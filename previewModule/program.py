@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import sys, os, glob, json
 from moviepy.editor import ImageClip, TextClip, CompositeVideoClip, ImageSequenceClip
-from configer import configCreator
+from configer import configCreator, configDefaults
 
 
 class sequenceProcessing(object):
@@ -138,24 +138,31 @@ class shotFinder(object):
                  component='Amn',
                  workpart='publish',
                  program='maya'):
-        c = configCreator()
-        if c.getValue('SOURSE'):
-          self.SOURSE = c.getValue('SOURSE')
-        else:
-            self.SOURSE = sourse
-        if c.getValue('COMPONENT'):
-          self.COMPONENT = c.getValue('COMPONENT')
-        else:
-            self.COMPONENT = component
-        if c.getValue('WORKPART'):
-          self.WORKPART = c.getValue('WORKPART')
-        else:
-            self.WORKPART = workpart
-        if c.getValue('PROGRAM'):
-          self.PROGRAM = c.getValue('PROGRAM')
-        else:
-            self.PROGRAM = program
-        print 'shot finder __init__'
+        cc = configCreator()
+        cd = configDefaults()
+        for i in ['SOURSE', 'COMPONENT', 'WORKPART', 'PROGRAM']:
+            if cc.getValue(i):
+              setattr(self, i, cc.getValue(i))
+            else:
+                setattr(self, i, getattr(cd, i))
+        # if c.getValue('SOURSE'):
+        #   self.SOURSE = c.getValue('SOURSE')
+        # else:
+        #     self.SOURSE = sourse
+        # if c.getValue('COMPONENT'):
+        #   self.COMPONENT = c.getValue('COMPONENT')
+        # else:
+        #     self.COMPONENT = component
+        # if c.getValue('WORKPART'):
+        #   self.WORKPART = c.getValue('WORKPART')
+        # else:
+        #     self.WORKPART = workpart
+        # if c.getValue('PROGRAM'):
+        #   self.PROGRAM = c.getValue('PROGRAM')
+        # else:
+        #     self.PROGRAM = program
+        print '>>> shot finder __init__'
+        print '>>> args:', self.SOURSE, self.COMPONENT, self.WORKPART, self.PROGRAM
 
     def shotgunFolders(self):
         '''

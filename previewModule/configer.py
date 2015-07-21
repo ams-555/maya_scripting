@@ -20,3 +20,16 @@ class configCreator(object):
         else:
             return None
 
+
+class configDefaults(object):
+    def __init__(self):
+        self.LOG = 'd:\\Dropbox\\FOX_renders\\log.json'
+        self.SOURSE = 'd:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\'
+        self.COMPONENT = 'Anm'
+        self.WORKPART = 'publish'
+        self.PROGRAM = 'maya'
+        self.PATH = 'd:\\Dropbox\\FOX_renders'
+        self.XML_PROJECT = 'd:\\test.xml'
+        self.STAMP_LOGO = 'd:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png'
+
+
