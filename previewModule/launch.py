@@ -79,10 +79,10 @@ class renderLauncher(object):
         :return:
         '''
         print '>>> render shot: ', shot
-        # p = subprocess.Popen(['Render', '-cam', 'shotCam', '-preRender', 'python("import previewRenderSetup")', '-rd', imagePath, shot],
-        #                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        # (output, err) = p.communicate()
-        # print output, err
+        p = subprocess.Popen(['Render', '-cam', 'shotCam', '-preRender', 'python("import previewRenderSetup")', '-rd', imagePath, shot],
+                                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        (output, err) = p.communicate()
+        print output, err
 
 renderLauncher()
 
