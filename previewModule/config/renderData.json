@@ -1,0 +1,57 @@
+[
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v006.mb", 
+        "id": 2
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot010\\Anm\\publish\\maya\\Shot010.v004.mb", 
+        "id": 4
+    }, 
+    {
+        "status": 0, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v007.mb", 
+        "id": 5
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot025\\Anm\\publish\\maya\\_Shot025.v004.mb", 
+        "id": 6
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot030\\Anm\\publish\\maya\\Shot030.v001.mb", 
+        "id": 7
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot040\\Anm\\publish\\maya\\Shot040.v005.mb", 
+        "id": 8
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot050\\Anm\\publish\\maya\\Shot050.v006.mb", 
+        "id": 9
+    }, 
+    {
+        "status": 0, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot060\\Anm\\publish\\maya\\Shot060.v004.mb", 
+        "id": 10
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot075\\Anm\\publish\\maya\\Shot075.v001.mb", 
+        "id": 11
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot010\\Anm\\publish\\maya\\Shot010.v004.mb", 
+        "id": 12
+    }, 
+    {
+        "status": 1, 
+        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v007.mb", 
+        "id": 13
+    }
+]
