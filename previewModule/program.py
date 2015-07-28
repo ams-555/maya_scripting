@@ -8,23 +8,30 @@ class sequenceProcessing(object):
     '''
     works with frames sequences
     '''
-    def __init__(self,
-                 path='d:\\Dropbox\\FOX_renders',
-                 stamp_logo='d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png',
-                 log='d:\\Dropbox\\FOX_renders\\log.json'):
-        c = configCreator()
-        if c.getValue('PATH'):
-          self.PATH = c.getValue('PATH')
-        else:
-            self.PATH = path
-        if c.getValue('STAMP_LOGO'):
-          self.STAMP_LOGO = c.getValue('STAMP_LOGO')
-        else:
-            self.STAMP_LOGO = stamp_logo
-        if c.getValue('LOG'):
-          self.LOG = c.getValue('LOG')
-        else:
-            self.LOG = log
+    def __init__(self):
+        #          path='d:\\Dropbox\\FOX_renders',
+        #          stamp_logo='d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png',
+        #          log='d:\\Dropbox\\FOX_renders\\log.json'):
+        # c = configCreator()
+        # if c.getValue('PATH'):
+        #   self.PATH = c.getValue('PATH')
+        # else:
+        #     self.PATH = path
+        # if c.getValue('STAMP_LOGO'):
+        #   self.STAMP_LOGO = c.getValue('STAMP_LOGO')
+        # else:
+        #     self.STAMP_LOGO = stamp_logo
+        # if c.getValue('LOG'):
+        #   self.LOG = c.getValue('LOG')
+        # else:
+        #     self.LOG = log
+        cc = configCreator()
+        cd = configDefaults()
+        for i in ['PATH', 'STAMP_LOGO', 'LOG']:
+            if cc.getValue(i):
+                setattr(self, i, cc.getValue(i))
+            else:
+                setattr(self, i, getattr(cd, i))
         print 'sequenceProcessing __init__'
 
     def makeStamp(self, sequenceFolder, shotNumber):
@@ -67,102 +74,18 @@ class sequenceProcessing(object):
         clip.write_videofile(os.path.join(self.PATH, 'mov', shotNumber+'.mp4'), fps=25)
 
 
-class logProcessing(object):
-    '''
-    creates a new log file, if there were no such file, and updates log file data.
-    '''
-    def __init__(self, log='d:\\Dropbox\\FOX_renders\\log.json'):
-        c = configCreator()
-        if c.getValue('LOG'):
-            self.LOG = c.getValue('LOG')
-        else:
-            self.LOG = log
-        # self.LOG = str(json.load(open(os.path.join(os.path.dirname(sys.argv[0]), 'config\config.json')))['LOG'])
-        if not os.path.exists(self.LOG):
-            # create an empty log
-            dict = {}
-            json.dump(dict, open(self.LOG, 'w'), indent=4)
-        self.currentData = json.load(open(self.LOG))
-        print 'logProcessing __init__'
-
-    def __logReader(self, shotNumber):
-        '''
-        reads the version of the specified shot from the log file.
-        :param shotNumber: number of the shot to be read.
-        :return: shot version or None if there were no data about this shot in log file
-        '''
-        if shotNumber in self.currentData.keys():
-            return self.currentData[shotNumber]
-        else:
-            return None
-
-    def logWriter(self, shotNumber, shotVersion):
-        '''
-        Updates log file data. Writes the latest version of the current shot.
-        :param shotNumber: current shot number to be writen to the log file
-        :param shotVersion: current shot version to be writen to the log file
-        :return:
-        '''
-        self.currentData[shotNumber] = shotVersion
-        json.dump(self.currentData, open(self.LOG, 'w'), indent=4)
-
-    def compare(self, argFile=None, argFolder=None):
-        '''
-        Compares versions of incoming shots and versions from log file
-        :param argFile: shot provided by the user from the command line
-        :param argFolder: folder provided by the user from the command line
-        :return: list of shots to be rendered
-        '''
-        s = shotFinder()
-        shotsForRender = []
-        if argFolder:
-            shots = s.customFolder(argFolder)
-        elif argFile:
-            shots = s.customFile(argFile)
-        else:
-            shots = s.shotgunFolders()
-        for shot in shots:
-            shotNumber = os.path.basename(shot).split('.')[0]
-            shotVersion = os.path.basename(shot).split('.')[1]
-            if shotVersion > self.__logReader(shotNumber):
-                shotsForRender.append(shot)
-        return shotsForRender
-
-
 class shotFinder(object):
     '''
     finds shots to be rendered
     '''
-    def __init__(self,
-                 sourse="d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\",
-                 component='Amn',
-                 workpart='publish',
-                 program='maya'):
+    def __init__(self):
         cc = configCreator()
         cd = configDefaults()
         for i in ['SOURSE', 'COMPONENT', 'WORKPART', 'PROGRAM']:
             if cc.getValue(i):
-              setattr(self, i, cc.getValue(i))
+                setattr(self, i, cc.getValue(i))
             else:
                 setattr(self, i, getattr(cd, i))
-        # if c.getValue('SOURSE'):
-        #   self.SOURSE = c.getValue('SOURSE')
-        # else:
-        #     self.SOURSE = sourse
-        # if c.getValue('COMPONENT'):
-        #   self.COMPONENT = c.getValue('COMPONENT')
-        # else:
-        #     self.COMPONENT = component
-        # if c.getValue('WORKPART'):
-        #   self.WORKPART = c.getValue('WORKPART')
-        # else:
-        #     self.WORKPART = workpart
-        # if c.getValue('PROGRAM'):
-        #   self.PROGRAM = c.getValue('PROGRAM')
-        # else:
-        #     self.PROGRAM = program
-        print '>>> shot finder __init__'
-        print '>>> args:', self.SOURSE, self.COMPONENT, self.WORKPART, self.PROGRAM
 
     def shotgunFolders(self):
         '''
@@ -178,22 +101,6 @@ class shotFinder(object):
                     lastVersionShot = os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM, allShots[-1])
                     shotList.append(lastVersionShot)
         return shotList
-
-    def customFolder(self, argFolder):
-        '''
-        finds shots in folder provided by the user from the command line
-        :param argFolder: folder provided by the user from the command line
-        :return: list of shots that mach naming rools
-        '''
-        allFiles = glob.glob(argFolder+'\*')
-        return self.__filter(allFiles)
-
-    def customFile(self, argFile):
-        '''
-        :param argFile: file provided by the user from the command line
-        :return: list of on shot if it maches naming rools
-        '''
-        return self.__filter(glob.glob(argFile))
 
     def __filter(self, files):
         '''

@@ -3,7 +3,6 @@ import os, sys, json
 
 class configCreator(object):
     def __init__(self):
-        print '__init__ congig creator'
         self.root = os.path.join(os.path.dirname(sys.argv[0]), 'config')
         if not os.path.exists(self.root):
             os.mkdir(self.root)
