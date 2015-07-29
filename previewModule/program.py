@@ -9,58 +9,49 @@ class sequenceProcessing(object):
     works with frames sequences
     '''
     def __init__(self):
-        #          path='d:\\Dropbox\\FOX_renders',
-        #          stamp_logo='d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png',
-        #          log='d:\\Dropbox\\FOX_renders\\log.json'):
-        # c = configCreator()
-        # if c.getValue('PATH'):
-        #   self.PATH = c.getValue('PATH')
-        # else:
-        #     self.PATH = path
-        # if c.getValue('STAMP_LOGO'):
-        #   self.STAMP_LOGO = c.getValue('STAMP_LOGO')
-        # else:
-        #     self.STAMP_LOGO = stamp_logo
-        # if c.getValue('LOG'):
-        #   self.LOG = c.getValue('LOG')
-        # else:
-        #     self.LOG = log
         cc = configCreator()
         cd = configDefaults()
-        for i in ['PATH', 'STAMP_LOGO', 'LOG']:
+        for i in ['PATH', 'STAMP_LOGO']:
             if cc.getValue(i):
                 setattr(self, i, cc.getValue(i))
             else:
                 setattr(self, i, getattr(cd, i))
         print 'sequenceProcessing __init__'
 
-    def makeStamp(self, sequenceFolder, shotNumber):
+    def makeStamp(self, task_id):
         '''
         stamps all frames in specified sequence
         :param sequenceFolder: frames folder
         :param shotNumber: number to be stamped on each frame
         :return:
         '''
-        frames = os.listdir(sequenceFolder)
-        stampLogo = ImageClip(str(self.STAMP_LOGO), transparent=True)
-        for frame in frames:
-            if os.path.splitext(frame)[-1] in ['.jpeg']:
-                image = ImageClip(str(os.path.join(sequenceFolder, frame)))
-                stampFocalLength = json.load(open(os.path.join(self.PATH, shotNumber, 'shotInfo.json')))['focalLength']
-                stampShotNumber = json.load(open(os.path.join(self.PATH, shotNumber, 'shotInfo.json')))['shotNumber']
-                stampShotVersion = json.load(open(self.LOG))[shotNumber]
-                stampFrameNumber = frame.split('.')[1]
-                txt_clip1 = TextClip(stampShotNumber, color='white', fontsize=20)
-                txt_clip2 = TextClip('version: {}'.format(stampShotVersion[1:]), color='white', fontsize=15)
-                txt_clip3 = TextClip('frame: {}'.format(stampFrameNumber), color='white', fontsize=15)
-                txt_clip4 = TextClip('focalLength: {}'.format(stampFocalLength), color='white', fontsize=15)
-                result = CompositeVideoClip([image, txt_clip1.set_position((5, 5)), txt_clip2.set_position((5, 25)), txt_clip3.set_position((5, 40)),
-                                             txt_clip4.set_position((5, 55)), stampLogo.set_position(("left", "bottom"))])
-                result.save_frame(os.path.join(sequenceFolder, frame))
-            else:
-                pass
+        tasksData = os.path.join(os.path.dirname(sys.argv[0]), 'config/renderData.json')
+        tasks = json.load(open(tasksData))
+        for task in tasks:
+            if task['id'] == task_id:
+                print task['id']
+                sequenceFolder = task['sequence_path']
+                stampShotNumber = os.path.split(task['scene_path'])[-1].split('.')[0]
+                stampShotVersion = os.path.split(task['scene_path'])[-1].split('.')[1]
+                stampFocalLength = json.load(open(os.path.join(self.PATH, stampShotNumber, 'shotInfo.json')))['focalLength']
+                frames = os.listdir(sequenceFolder)
+                stampLogo = ImageClip(str(self.STAMP_LOGO), transparent=True)
+                # for frame in frames:
+                #     if os.path.splitext(frame)[-1] in ['.jpeg']:
+                #         image = ImageClip(str(os.path.join(sequenceFolder, frame)))
+                #         stampFrameNumber = frame.split('.')[1]
+                #         txt_clip1 = TextClip(stampShotNumber, color='white', fontsize=20)
+                #         txt_clip2 = TextClip('version: {}'.format(stampShotVersion[1:]), color='white', fontsize=15)
+                #         txt_clip3 = TextClip('frame: {}'.format(stampFrameNumber), color='white', fontsize=15)
+                #         txt_clip4 = TextClip('focalLength: {}'.format(stampFocalLength), color='white', fontsize=15)
+                #         result = CompositeVideoClip([image, txt_clip1.set_position((5, 5)), txt_clip2.set_position((5, 25)), txt_clip3.set_position((5, 40)),
+                #                                      txt_clip4.set_position((5, 55)), stampLogo.set_position(("left", "bottom"))])
+                #         result.save_frame(os.path.join(sequenceFolder, frame))
+                print 'STAMP#################'
+                print stampShotNumber, stampShotVersion, stampFocalLength, self.STAMP_LOGO, self.PATH
+                print '######################'
 
-    def makeVideo(self, sequenceFolder, shotNumber):
+    def makeVideo(self, sequenceFolder):
         '''
         makes video file from specified frame folder
         :param sequenceFolder: frames folder
@@ -69,9 +60,11 @@ class sequenceProcessing(object):
         '''
         frameSequence = glob.glob(os.path.join(sequenceFolder, '*.jpeg'))
         clip = ImageSequenceClip(frameSequence, fps=25)
-        if not os.path.exists(os.path.join(self.PATH, 'mov')):
-            os.mkdir(os.path.join(self.PATH, 'mov'))
+        if not os.path.exists(os.path.join(self.PATH, 'videos')):
+            os.mkdir(os.path.join(self.PATH, 'videos'))
+        shotNumber = json.load(open(os.path.join(self.PATH, shotNumber, 'shotInfo.json')))['shotNumber']
         clip.write_videofile(os.path.join(self.PATH, 'mov', shotNumber+'.mp4'), fps=25)
+        print '>>> ', stampShotNumber
 
 
 class shotFinder(object):

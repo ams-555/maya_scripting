@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from multiprocessing import Process, Pipe
 from renderData import renderDataHolder
 from launch import renderLauncher
@@ -7,19 +7,15 @@ import json
 
 app = Flask(__name__)
 
-def renderProcess(conn):
+def renderProcess():
     l = renderLauncher()
-    result = l.run()
-    conn.send(result)
-    conn.close()
+    l.run()
 
 @app.route('/render')
 def run():
-    parent_conn, child_conn = Pipe()
-    p = Process(target=renderProcess, args=(child_conn,))
+    p = Process(target=renderProcess)
     p.start()
-    result = parent_conn.recv()
-    return jsonify({'render started': result})
+    return jsonify({'render started': True})
 
 @app.route('/tasks/scan', methods=['GET'])
 def scanTasks():
@@ -32,15 +28,19 @@ def scanTasks():
 def addTask():
     if request.method == 'POST':
         r = renderDataHolder()
-        task_id = r.addNewTask(request.json.get('path'))
-        return jsonify({'id': task_id})
+        task_id = r.addNewTask(request.json.get('scene_path'), request.json.get('sequence_path'))
+        return jsonify({'id': task_id}), 201
 
 @app.route('/tasks/<int:task_id>', methods=['GET'])
 def readStatus(task_id):
     if request.method == 'GET':
         r = renderDataHolder()
-        taskStatus = r.getStatus(task_id)
-        return jsonify({'status': taskStatus})
+        status = r.getValue(task_id, 'status')
+        output = r.getValue(task_id, 'output')
+        if status or output:
+            return jsonify({'status': status, 'output': output})
+        else:
+            abort(404)
 
 @app.route('/tasks', methods=['GET'])
 def getTasks():
@@ -54,13 +54,12 @@ def deleteTask(task_id):
     if request.method == 'DELETE':
         r = renderDataHolder()
         result = r.deleteTask(task_id)
-        return jsonify({'result': result})
+        return jsonify({'result': result}), 301
 
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-# curl -i -H "Content-Type: application/json" -X POST -d "[{"""id""":1, """done""":0},
-#                                                           {"""id""":2,"""done""":0}]' http://127.0.0.1:5000/tasks
 
 
+# curl -H "Content-Type: application/json" -d "{"""path""":"""path/to/images"""}" http://127.0.0.1:5000/tasks

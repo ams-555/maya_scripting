@@ -2,6 +2,7 @@ import sys, os
 # from program import sequenceProcessing
 from configer import configCreator, configDefaults
 from renderData import renderDataHolder
+from program import sequenceProcessing
 import time
 
 class renderLauncher(object):
@@ -19,11 +20,15 @@ class renderLauncher(object):
 
     def run(self):
         r = renderDataHolder()
+        s = sequenceProcessing()
         if r.getAllRenderable():
             for shot in r.getAllRenderable():
-                r.editStatus(shot['id'], 0)   # inProgress
-                self.__doRender(shot['path'], 'path/to/image/folder')
-                r.editStatus(shot['id'], 1)   # done
+                r.setStatus(shot['id'], 0)   # inProgress
+                result = self.__doRender(shot['scene_path'], shot['sequence_path'])
+                s.makeStamp(shot['id'])
+                # s.makeVideo(shot['id'])
+                r.setStatus(shot['id'], 1)   # done
+                r.setOutput(shot['id'], result)
             return True
         else:
             return False
@@ -40,9 +45,10 @@ class renderLauncher(object):
     #                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     #     (output, err) = p.communicate()
     #     print output, err
+    #     return output
 
-    def __doRender(self, shot, imagePath):
-        time.sleep(5)
-        print '>>> maya: render complete ', shot, '\n>>> images ', imagePath
-
-
+    def __doRender(self, shot, sequence_path):
+        print 'RENDER#################'
+        print '>>> maya: render complete ', shot, '\n>>> images ', sequence_path
+        print '######################'
+        return 'I am maya output info'

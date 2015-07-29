@@ -1,57 +1,114 @@
 [
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v006.mb", 
-        "id": 2
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot010\\Anm\\publish\\maya\\Shot010.v004.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot010", 
+        "id": 1, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot010\\Anm\\publish\\maya\\Shot010.v004.mb", 
-        "id": 4
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v007.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot020", 
+        "id": 2, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 0, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v007.mb", 
-        "id": 5
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot030\\Anm\\publish\\maya\\Shot030.v001.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot030", 
+        "id": 4, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot025\\Anm\\publish\\maya\\_Shot025.v004.mb", 
-        "id": 6
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot040\\Anm\\publish\\maya\\Shot040.v005.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot040", 
+        "id": 5, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot030\\Anm\\publish\\maya\\Shot030.v001.mb", 
-        "id": 7
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot050\\Anm\\publish\\maya\\Shot050.v006.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot050", 
+        "id": 6, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot040\\Anm\\publish\\maya\\Shot040.v005.mb", 
-        "id": 8
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot060\\Anm\\publish\\maya\\Shot060.v004.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot060", 
+        "id": 7, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot050\\Anm\\publish\\maya\\Shot050.v006.mb", 
-        "id": 9
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot075\\Anm\\publish\\maya\\Shot075.v001.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot075", 
+        "id": 8, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 0, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot060\\Anm\\publish\\maya\\Shot060.v004.mb", 
-        "id": 10
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot080\\Anm\\publish\\maya\\shot080.v012.ma", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\shot080", 
+        "id": 9, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot075\\Anm\\publish\\maya\\Shot075.v001.mb", 
-        "id": 11
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot090\\Anm\\publish\\maya\\Shot090.v005.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot090", 
+        "id": 10, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot010\\Anm\\publish\\maya\\Shot010.v004.mb", 
-        "id": 12
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot100\\Anm\\publish\\maya\\Shot100.v003.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot100", 
+        "id": 11, 
+        "output": "path/to/logFile"
     }, 
     {
-        "status": 1, 
-        "path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot020\\Anm\\publish\\maya\\Shot020.v007.mb", 
-        "id": 13
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot110\\Anm\\publish\\maya\\Shot110.v005.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot110", 
+        "id": 12, 
+        "output": "path/to/logFile"
+    }, 
+    {
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot120\\Anm\\publish\\maya\\shot120.v004.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\shot120", 
+        "id": 13, 
+        "output": "path/to/logFile"
+    }, 
+    {
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot125\\Anm\\publish\\maya\\shot125.v004.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\shot125", 
+        "id": 14, 
+        "output": "path/to/logFile"
+    }, 
+    {
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot130\\Anm\\publish\\maya\\shot130.v003.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\shot130", 
+        "id": 15, 
+        "output": "path/to/logFile"
+    }, 
+    {
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot140\\Anm\\publish\\maya\\Shot140.v003.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot140", 
+        "id": 16, 
+        "output": "path/to/logFile"
+    }, 
+    {
+        "scene_path": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\shot150\\Anm\\publish\\maya\\Shot150.v005.mb", 
+        "status": -1, 
+        "sequence_path": "d:\\Dropbox\\FOX_renders\\Shot150", 
+        "id": 17, 
+        "output": "path/to/logFile"
     }
 ]
