@@ -11,7 +11,7 @@ def renderProcess():
     l = renderLauncher()
     l.run()
 
-@app.route('/render')
+@app.route('/tasks/render')
 def run():
     p = Process(target=renderProcess)
     p.start()
@@ -38,7 +38,11 @@ def readStatus(task_id):
         status = r.getValue(task_id, 'status')
         output = r.getValue(task_id, 'output')
         if status or output:
-            return jsonify({'status': status, 'output': output})
+            try:
+                output_data = file(output).read()
+            except:
+                output_data = output
+            return jsonify({'status': status, 'output': output_data})
         else:
             abort(404)
 
@@ -54,12 +58,11 @@ def deleteTask(task_id):
     if request.method == 'DELETE':
         r = renderDataHolder()
         result = r.deleteTask(task_id)
-        return jsonify({'result': result}), 301
+        return jsonify({'result': result})
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
 
 # curl -H "Content-Type: application/json" -d "{"""path""":"""path/to/images"""}" http://127.0.0.1:5000/tasks

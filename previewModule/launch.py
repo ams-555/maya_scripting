@@ -1,5 +1,4 @@
 import sys, os
-# from program import sequenceProcessing
 from configer import configCreator, configDefaults
 from renderData import renderDataHolder
 from program import sequenceProcessing
@@ -17,6 +16,9 @@ class renderLauncher(object):
                 setattr(self, i, cc.getValue(i))
             else:
                 setattr(self, i, getattr(cd, i))
+        self.root = os.path.join(os.path.dirname(sys.argv[0]), 'config')
+        if not os.path.exists(self.root):
+            os.mkdir(self.root)
 
     def run(self):
         r = renderDataHolder()
@@ -25,10 +27,17 @@ class renderLauncher(object):
             for shot in r.getAllRenderable():
                 r.setStatus(shot['id'], 0)   # inProgress
                 result = self.__doRender(shot['scene_path'], shot['sequence_path'])
+                output_file_path = os.path.join(self.root, 'output_id' + str(shot['id']) + '.txt')
+                try:
+                    output_file = open(output_file_path, 'w')
+                    output_file.write(result)
+                    output_file.close()
+                except IOError:
+                    pass
                 s.makeStamp(shot['id'])
-                # s.makeVideo(shot['id'])
+                s.makeVideo(shot['id'])
                 r.setStatus(shot['id'], 1)   # done
-                r.setOutput(shot['id'], result)
+                r.setOutput(shot['id'], output_file_path)
             return True
         else:
             return False
@@ -51,4 +60,6 @@ class renderLauncher(object):
         print 'RENDER#################'
         print '>>> maya: render complete ', shot, '\n>>> images ', sequence_path
         print '######################'
-        return 'I am maya output info'
+        output = 'I am maya output'
+        return output
+

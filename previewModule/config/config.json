@@ -1,10 +1,9 @@
 { 
-    "LOG": "d:\\Dropbox\\FOX_renders\\log.json", 
     "SOURSE": "d:\\Dropbox\\shotgunData\\FOX\\sequences\\Teaser_01_edit_01\\", 
     "COMPONENT": "Anm", 
     "WORKPART": "publish", 
-    "PROGRAM": "maya", 
+    "APP": "maya", 
     "PATH": "d:\\Dropbox\\FOX_renders",
-    "XML_PROJECT": "d:\\test.xml",
-    "STAMP_LOGO": "d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png"
+    "STAMP_LOGO": "d:\\Dropbox\\maya\\scripts\\previewModule\\images\\stampLogo.png",
+	"XML_PROJECT": "d:\\test.xml"
 }

@@ -16,7 +16,6 @@ class sequenceProcessing(object):
                 setattr(self, i, cc.getValue(i))
             else:
                 setattr(self, i, getattr(cd, i))
-        print 'sequenceProcessing __init__'
 
     def makeStamp(self, task_id):
         '''
@@ -29,7 +28,6 @@ class sequenceProcessing(object):
         tasks = json.load(open(tasksData))
         for task in tasks:
             if task['id'] == task_id:
-                print task['id']
                 sequenceFolder = task['sequence_path']
                 stampShotNumber = os.path.split(task['scene_path'])[-1].split('.')[0]
                 stampShotVersion = os.path.split(task['scene_path'])[-1].split('.')[1]
@@ -51,20 +49,27 @@ class sequenceProcessing(object):
                 print stampShotNumber, stampShotVersion, stampFocalLength, self.STAMP_LOGO, self.PATH
                 print '######################'
 
-    def makeVideo(self, sequenceFolder):
+    def makeVideo(self, task_id):
         '''
         makes video file from specified frame folder
         :param sequenceFolder: frames folder
         :param shotNumber: number for naming the resulting video file
         :return:
         '''
-        frameSequence = glob.glob(os.path.join(sequenceFolder, '*.jpeg'))
-        clip = ImageSequenceClip(frameSequence, fps=25)
-        if not os.path.exists(os.path.join(self.PATH, 'videos')):
-            os.mkdir(os.path.join(self.PATH, 'videos'))
-        shotNumber = json.load(open(os.path.join(self.PATH, shotNumber, 'shotInfo.json')))['shotNumber']
-        clip.write_videofile(os.path.join(self.PATH, 'mov', shotNumber+'.mp4'), fps=25)
-        print '>>> ', stampShotNumber
+        tasksData = os.path.join(os.path.dirname(sys.argv[0]), 'config/renderData.json')
+        tasks = json.load(open(tasksData))
+        for task in tasks:
+            if task['id'] == task_id:
+                sequenceFolder = task['sequence_path']
+                sequenceFrames = glob.glob(os.path.join(sequenceFolder, '*.jpeg'))
+                stampShotNumber = os.path.split(task['scene_path'])[-1].split('.')[0]
+                # clip = ImageSequenceClip(sequenceFrames, fps=25)
+                # if not os.path.exists(os.path.join(self.PATH, 'videos')):
+                #     os.mkdir(os.path.join(self.PATH, 'videos'))
+                # clip.write_videofile(os.path.join(self.PATH, 'mov', stampShotNumber+'.mp4'), fps=25)
+                print 'VIDEO#################'
+                print sequenceFolder, sequenceFrames[0], stampShotNumber, self.PATH
+                print '######################'
 
 
 class shotFinder(object):
@@ -74,7 +79,7 @@ class shotFinder(object):
     def __init__(self):
         cc = configCreator()
         cd = configDefaults()
-        for i in ['SOURSE', 'COMPONENT', 'WORKPART', 'PROGRAM']:
+        for i in ['SOURSE', 'COMPONENT', 'WORKPART', 'APP']:
             if cc.getValue(i):
                 setattr(self, i, cc.getValue(i))
             else:
@@ -88,10 +93,10 @@ class shotFinder(object):
         shotList = []
         shotDirsList = glob.glob(self.SOURSE+'shot*')
         for shotDir in shotDirsList:
-            for path, subdirs, files in os.walk(os.path.join(self.SOURSE, shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM)):
+            for path, subdirs, files in os.walk(os.path.join(self.SOURSE, shotDir, self.COMPONENT, self.WORKPART, self.APP)):
                 allShots = self.__filter(files)
                 if allShots:
-                    lastVersionShot = os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.PROGRAM, allShots[-1])
+                    lastVersionShot = os.path.join(shotDir, self.COMPONENT, self.WORKPART, self.APP, allShots[-1])
                     shotList.append(lastVersionShot)
         return shotList
 

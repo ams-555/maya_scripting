@@ -27,7 +27,7 @@ class renderDataHolder(object):
         newTask['scene_path'] = pathToScene
         newTask['status'] = -1
         newTask['sequence_path'] = pathToSequence
-        newTask['output'] = 'path/to/logFile'
+        newTask['output'] = 'not rendered yet'
         self.tasks.append(newTask)
         json.dump(self.tasks, open(self.renderDataFile, 'w'), indent=4)
         return newTask['id']
